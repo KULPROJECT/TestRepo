@@ -2,12 +2,14 @@
     margin:0;
     padding:0;
 }
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+.login-Bg{
+    background-image:url(../assets/loginFormBackground.jpg);
+    background-size:cover;
+    background-repeat:no-repeat;
+    height:100vh;
 }
-.MuiPaper-root {
+.MuiPaper-elevation1 {
     display: flex;
     flex-flow:column;
     margin:5px;
