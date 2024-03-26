@@ -41,8 +41,8 @@ function createUser () {
                 opacity:0.2,
                 width:3/4
             }}></Divider>
-            <Grid container spacing={2} columns={16}>
-                <Grid lg={8} xs={4}>
+            <Grid container spacing={4} columns={2}>
+                <Grid xs={1}>
                     
                         <TextField
                         helperText=" "
@@ -51,7 +51,7 @@ function createUser () {
                         />
                     
                 </Grid>
-                <Grid lg={8} xs={4}>
+                <Grid xs={1}>
                     
                         <TextField
                             helperText=" "

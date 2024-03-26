@@ -1,4 +1,4 @@
-import CreateUser from './Components/LoginForm/CreateUser';
+import CreateUser from './Components/CreateUser/CreateUser';
 
 function App() {
     return (
