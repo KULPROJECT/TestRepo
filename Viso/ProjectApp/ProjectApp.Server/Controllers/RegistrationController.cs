@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectApp.Server.Models;
 using ProjectApp.Server.Services;
+using System.Text.RegularExpressions;
 
 namespace ProjectApp.Server.Controllers
 {
@@ -49,7 +50,17 @@ namespace ProjectApp.Server.Controllers
         [Route("AddUser")]
         public IActionResult AddUser(string username, string email, string phoneNumber, string pass)
         {
-            return null;
+            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status404NotFound);
+            if (Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            {
+                _dbContext.Clients.FromSql(
+                    $"insert into dbo.Clients (Email, Pass_hash, User_name, Phone_number) values ('{email}',Cast('{pass}' as binary(64)), '{username}', '{phoneNumber}');");
+                _dbContext.SaveChanges();
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else return StatusCode(StatusCodes.Status409Conflict);
         }
     }
 }
