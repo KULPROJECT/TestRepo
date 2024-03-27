@@ -13,6 +13,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
+import background from '../assets/loginFormBackground.jpg';
 
 
 
@@ -26,12 +27,14 @@ function loginForm () {
     };
 
     return (
-        
-        <Grid container columns={12 }>
-            <Grid lg md={6} xs>
-                    <div className="login-Bg"></div>
+        <>
+            <Grid container columns={12}>
+                <Grid item xs={0} md={8}>
+                    <div id="login-Bg">   
+                    </div>
                 </Grid>
-            <Grid lg md={6} xs >
+                <Grid item xs md={4}>
+                <div id="loginForm">
                     <Paper elevation={1}>
                         <LockOutlinedIcon sx={{
                             color: 'purple',
@@ -77,10 +80,12 @@ function loginForm () {
             
 
                             <Button variant="contained">Sign in</Button>
-                                </Paper>
-                            </Grid>
+                        </Paper>
+                    </div>
+                    </Grid>
+                
             </Grid>
-        
+        </>
     );
 };
 export default loginForm;
