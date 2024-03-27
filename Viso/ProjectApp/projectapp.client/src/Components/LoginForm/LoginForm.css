@@ -10,9 +10,6 @@
     background-size: 100% 100%;
     background-repeat:no-repeat;
 }
-#login-Bg img{
-    height:100vh;
-}
 .MuiPaper-elevation1 {
     display: flex;
     flex-flow:column;

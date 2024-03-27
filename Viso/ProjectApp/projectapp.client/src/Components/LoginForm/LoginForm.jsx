@@ -13,7 +13,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
-import background from '../assets/loginFormBackground.jpg';
 
 
 
