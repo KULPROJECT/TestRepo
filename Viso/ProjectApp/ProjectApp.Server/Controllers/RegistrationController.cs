@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectApp.Server.Models;
 using ProjectApp.Server.Services;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ProjectApp.Server.Controllers
 {
@@ -10,18 +12,18 @@ namespace ProjectApp.Server.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-        private readonly ProjectdbContext _dbContext;
+        private readonly ProjectDbContext _dbContext;
 
-        public RegistrationController(ProjectdbContext dbContext)
+        public RegistrationController(ProjectDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         [HttpGet]
-        [Route("CheckUsername")]
-        public IActionResult CheckUsername(string usernameWanted)
+        [Route("CheckUsernameExists")]
+        public IActionResult CheckUsernameExists(string usernameWanted)
         {
-            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status404NotFound);
+            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
             var username = _dbContext.Clients
                 .FromSql($"select * from dbo.Clients where user_name = {usernameWanted}").ToList();
             if (username.Count>0)
@@ -32,10 +34,10 @@ namespace ProjectApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("CheckEmail")]
-        public IActionResult CheckEmail(string emailWanted)
+        [Route("CheckEmailExists")]
+        public IActionResult CheckEmailExists(string emailWanted)
         {
-            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status404NotFound);
+            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
             var username = _dbContext.Clients
                 .FromSql($"select * from dbo.Clients where email = {emailWanted}").ToList();
             if (username.Count > 0)
@@ -49,7 +51,18 @@ namespace ProjectApp.Server.Controllers
         [Route("AddUser")]
         public IActionResult AddUser(string username, string email, string phoneNumber, string pass)
         {
-            return null;
+            if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
+            if (Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            {
+                var securePassword = EncryptionTool.EncryptData(pass);
+                var newClient = new Client(email, phoneNumber, securePassword, username);
+                _dbContext.Add(newClient);
+                _dbContext.SaveChanges();
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else return StatusCode(StatusCodes.Status409Conflict);
         }
     }
 }
