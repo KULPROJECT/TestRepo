@@ -4,6 +4,8 @@ using ProjectApp.Server.Services;
 
 namespace ProjectApp.Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LoginController : Controller
     {
         private readonly ProjectDbContext _dbContext;
