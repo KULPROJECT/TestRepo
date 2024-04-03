@@ -8,9 +8,9 @@ namespace ProjectApp.Server.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private readonly ProjectdbContext _dbContext;
+        private readonly ProjectDbContext _dbContext;
 
-        public ClientController(ProjectdbContext dbContext)
+        public ClientController(ProjectDbContext dbContext)
         {
             _dbContext = dbContext;
         }
