@@ -1,5 +1,5 @@
 import * as React from 'react';
-/*import './CreateUser.css'*/
+import styles from './CreateUser.module.scss'
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
@@ -16,7 +16,7 @@ import Grid from '@mui/system/Unstable_Grid';
 
 
 
-function createUser () {
+function CreateUser() {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -26,14 +26,14 @@ function createUser () {
     };
     
     return (
-       
-        <Paper elevation={3}>
+        <div className={styles.container}>  
+        <Paper className={styles.MuiPaperElevation3} elevation={3}>
             <LockOutlinedIcon sx={{
                 color: 'purple',
                 fontSize: 45,
                 width:1
             }} />
-            <h1>CREATE ACCOUNT</h1>
+            <h1 className={styles.header1}>CREATE ACCOUNT</h1>
             <Divider sx={{
                 mb: 1,
                 border: 1.2,
@@ -41,8 +41,8 @@ function createUser () {
                 opacity:0.2,
                 width:3/4
             }}></Divider>
-            <Grid container spacing={4} columns={2}>
-                <Grid xs={1}>
+            <Grid container spacing={4} columns={12}>
+                <Grid xs md={6}>
                     
                         <TextField
                         helperText=" "
@@ -51,7 +51,7 @@ function createUser () {
                         />
                     
                 </Grid>
-                <Grid xs={1}>
+                <Grid xs md={6}>
                     
                         <TextField
                             helperText=" "
@@ -93,7 +93,7 @@ function createUser () {
 
                 <Button variant="contained">Create Account</Button>
             </Paper>
-        
+        </div>  
     );
-};
-export default createUser;
+}
+export default CreateUser;

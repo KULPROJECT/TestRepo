@@ -1,8 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-#login-Bg {
+.loginBg {
     overflow: hidden;
     height:100vh;
     
@@ -10,19 +6,19 @@
     background-size: 100% 100%;
     background-repeat:no-repeat;
 }
-.MuiPaper-elevation1 {
+.MuiPaperElevation1 {
     display: flex;
     flex-flow:column;
     padding:15px;
 }
-#loginForm {
+.loginForm {
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
     height: 100vh;
 }
-h1{
+.header1{
     color:#121111e2;
     font-weight:600;
     text-align:center;
