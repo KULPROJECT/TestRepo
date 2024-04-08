@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProjectApp.Server.Models;
 
-public partial class ProjectdbContext : DbContext
+public partial class ProjectDbContext : DbContext
 {
-    public ProjectdbContext()
+    public ProjectDbContext()
     {
     }
 
-    public ProjectdbContext(DbContextOptions<ProjectdbContext> options)
+    public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
         : base(options)
     {
     }
@@ -39,7 +39,7 @@ public partial class ProjectdbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local); DataBase=PROJECTDB;Integrated Security=true;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=(local); DataBase=ProjectDB;Integrated Security=true;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,10 +61,7 @@ public partial class ProjectdbContext : DbContext
         {
             entity.Property(e => e.ClientId).HasColumnName("Client_id");
             entity.Property(e => e.Email).HasMaxLength(100);
-            entity.Property(e => e.PassHash)
-                .HasMaxLength(64)
-                .IsFixedLength()
-                .HasColumnName("Pass_hash");
+            entity.Property(e => e.PassHash).HasColumnName("Pass_hash");
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -204,7 +201,6 @@ public partial class ProjectdbContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
