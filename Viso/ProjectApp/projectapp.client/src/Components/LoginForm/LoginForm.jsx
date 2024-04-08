@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './LoginForm.css'
+import styles from './LoginForm.module.scss';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
@@ -16,7 +16,7 @@ import Grid from '@mui/system/Unstable_Grid';
 
 
 
-function loginForm () {
+function LoginForm() {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -26,21 +26,20 @@ function loginForm () {
     };
 
     return (
-        <>
             <Grid container columns={12}>
                 <Grid item xs={0} md={8}>
-                    <div id="login-Bg">   
+                    <div className={styles.loginBg}>   
                     </div>
                 </Grid>
                 <Grid item xs md={4}>
-                <div id="loginForm">
-                    <Paper elevation={1}>
+                <div className={styles.loginForm}>
+                    <Paper className={styles.MuiPaperElevation1} elevation={1}>
                         <LockOutlinedIcon sx={{
                             color: 'purple',
                             fontSize: 45,
                             width:1
-                        }} />
-                        <h1>Sign in</h1>
+                            }} />
+                            <h1 className={styles.header1}>Sign in</h1>
                         <Divider sx={{
                             mb: 1,
                             border: 1.2,
@@ -84,7 +83,6 @@ function loginForm () {
                     </Grid>
                 
             </Grid>
-        </>
     );
-};
-export default loginForm;
+}
+export default LoginForm;
