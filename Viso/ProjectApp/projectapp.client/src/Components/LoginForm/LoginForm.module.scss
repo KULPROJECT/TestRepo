@@ -7,10 +7,11 @@
     background-repeat:no-repeat;
 }
 .MuiPaperElevation1 {
-    height:100vh;
+    justify-content: center;
     display: flex;
-    flex-flow:column;
-    padding:15px;
+    flex-flow: column;
+    padding: 15px;
+    height: 100vh;
 }
 .loginForm {
     display: flex;
