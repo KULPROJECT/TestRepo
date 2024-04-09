@@ -31,15 +31,19 @@ public partial class ProjectDbContext : DbContext
 
     public virtual DbSet<OrderItem> OrderItems { get; set; }
 
+    public virtual DbSet<Permition> Permitions { get; set; }
+
     public virtual DbSet<ROpinion> ROpinions { get; set; }
 
     public virtual DbSet<Reservation> Reservations { get; set; }
 
     public virtual DbSet<Restaurant> Restaurants { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local); DataBase=ProjectDB;Integrated Security=true;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=(local); DataBase=PROJECTDB;Integrated Security=true;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,12 +67,11 @@ public partial class ProjectDbContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.PassHash).HasColumnName("Pass_hash");
             entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .HasMaxLength(20)
                 .HasColumnName("Phone_number");
+            entity.Property(e => e.RoleId).HasColumnName("Role_id");
             entity.Property(e => e.UserName)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("User_name");
         });
 
@@ -98,9 +101,9 @@ public partial class ProjectDbContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Pass_hash");
             entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .IsUnicode(false)
+                .HasMaxLength(50)
                 .HasColumnName("Phone_number");
+            entity.Property(e => e.RoleId).HasColumnName("Role_id");
         });
 
         modelBuilder.Entity<MenuCategory>(entity =>
@@ -126,7 +129,7 @@ public partial class ProjectDbContext : DbContext
                 .HasMaxLength(260)
                 .HasColumnName("Image_path");
             entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Price).HasColumnType("decimal(4, 2)");
+            entity.Property(e => e.Price).HasColumnType("decimal(6, 2)");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -150,6 +153,19 @@ public partial class ProjectDbContext : DbContext
 
             entity.Property(e => e.ItemId).HasColumnName("Item_id");
             entity.Property(e => e.OrderId).HasColumnName("Order_id");
+        });
+
+        modelBuilder.Entity<Permition>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.PermitId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("Permit_id");
+            entity.Property(e => e.PermitName)
+                .HasMaxLength(50)
+                .HasColumnName("Permit_name");
+            entity.Property(e => e.RoleId).HasColumnName("Role_id");
         });
 
         modelBuilder.Entity<ROpinion>(entity =>
@@ -192,11 +208,19 @@ public partial class ProjectDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Phone_number");
             entity.Property(e => e.TotalGrade)
-                .HasColumnType("decimal(1, 1)")
+                .HasColumnType("decimal(2, 1)")
                 .HasColumnName("Total_grade");
             entity.Property(e => e.WorkingHours)
                 .HasMaxLength(200)
                 .HasColumnName("Working_hours");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.Property(e => e.RoleId).HasColumnName("Role_id");
+            entity.Property(e => e.RoleName)
+                .HasMaxLength(50)
+                .HasColumnName("Role_name");
         });
 
         OnModelCreatingPartial(modelBuilder);
