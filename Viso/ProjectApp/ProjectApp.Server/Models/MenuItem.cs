@@ -16,4 +16,6 @@ public partial class MenuItem
     public int CategoryId { get; set; }
 
     public decimal Price { get; set; }
+
+    public int RestaurantId { get; set; }
 }
