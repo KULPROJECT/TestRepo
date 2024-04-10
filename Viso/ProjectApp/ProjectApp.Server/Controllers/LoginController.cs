@@ -8,9 +8,9 @@ namespace ProjectApp.Server.Controllers
     [ApiController]
     public class LoginController : Controller
     {
-        private readonly ProjectDbContext _dbContext;
+        private readonly ProjectdbContext _dbContext;
 
-        public LoginController(ProjectDbContext dbContext)
+        public LoginController(ProjectdbContext dbContext)
         {
             _dbContext = dbContext;
         }

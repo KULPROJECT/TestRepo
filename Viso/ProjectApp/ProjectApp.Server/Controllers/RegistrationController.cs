@@ -12,9 +12,9 @@ namespace ProjectApp.Server.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-        private readonly ProjectDbContext _dbContext;
+        private readonly ProjectdbContext _dbContext;
 
-        public RegistrationController(ProjectDbContext dbContext)
+        public RegistrationController(ProjectdbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -57,8 +57,21 @@ namespace ProjectApp.Server.Controllers
                     RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
             {
                 var securePassword = EncryptionTool.EncryptData(pass);
-                var newClient = new Client(email, phoneNumber, securePassword, username);
+                var newClient = new Client()
+                {
+                    Email = email, 
+                    PhoneNumber = phoneNumber, 
+                    PassHash = securePassword, 
+                    UserName = username
+                };
                 _dbContext.Add(newClient);
+                _dbContext.SaveChanges();
+                var newClientRole = new ClientRole()
+                {
+                    ClientId = newClient.ClientId,
+                    RoleId = 1
+                };
+                _dbContext.Add(newClientRole);
                 _dbContext.SaveChanges();
                 return StatusCode(StatusCodes.Status200OK);
             }
