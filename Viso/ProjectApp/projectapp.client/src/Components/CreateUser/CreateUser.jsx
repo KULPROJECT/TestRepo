@@ -65,7 +65,12 @@ function CreateUser() {
                 helperText=" "
                 id="demo-helper-text-misaligned"
                 label="Email"
-            />
+                />
+            <TextField
+                    helperText=" "
+                    id="demo-helper-text-misaligned"
+                    label="Phone Number"
+                />
             <FormControl sx={{mb:2}} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
                 <OutlinedInput
