@@ -13,6 +13,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
+import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography'
 
 
 
@@ -40,7 +42,8 @@ function CreateUser() {
                 borderRadius:4,
                 opacity:0.2,
                 width:3/4
-            }}></Divider>
+                }}></Divider>
+            
             <Grid container spacing={4} columns={12}>
                 <Grid xs md={6}>
                     
@@ -61,7 +64,7 @@ function CreateUser() {
                     
                     </Grid>
             </Grid>
-            <TextField
+                <TextField
                 helperText=" "
                 id="demo-helper-text-misaligned"
                 label="Email"
@@ -96,7 +99,11 @@ function CreateUser() {
             </FormControl>
             
 
-                <Button variant="contained">Create Account</Button>
+                    <Button variant="contained">Create Account</Button>
+             
+                <Link to="/login">
+                    Do you have an account ?
+                    </Link>
             </Paper>
         </div>  
     );
