@@ -14,7 +14,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
 import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography'
 
 
 
@@ -29,7 +28,8 @@ function CreateUser() {
     
     return (
         <div className={styles.container}>  
-        <Paper className={styles.MuiPaperElevation3} elevation={3}>
+            <Paper className={styles.MuiPaperElevation3} elevation={3}>
+        <form>
             <LockOutlinedIcon sx={{
                 color: 'purple',
                 fontSize: 45,
@@ -104,6 +104,7 @@ function CreateUser() {
                 <Link to="/login">
                     Do you have an account ?
                     </Link>
+                </form>
             </Paper>
         </div>  
     );
