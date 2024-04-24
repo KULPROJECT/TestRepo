@@ -16,4 +16,6 @@ public partial class Manager
     public string Email { get; set; } = null!;
 
     public byte[] PassHash { get; set; } = null!;
+
+    public int RoleId { get; set; }
 }

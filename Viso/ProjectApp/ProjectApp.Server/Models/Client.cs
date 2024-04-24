@@ -5,14 +5,6 @@ namespace ProjectApp.Server.Models;
 
 public partial class Client
 {
-    public Client(string email, string? phoneNumber, string passHash, string userName)
-    {
-        Email = email;
-        PhoneNumber = phoneNumber;
-        PassHash = passHash;
-        UserName = userName;
-    }
-
     public int ClientId { get; set; }
 
     public string Email { get; set; } = null!;
