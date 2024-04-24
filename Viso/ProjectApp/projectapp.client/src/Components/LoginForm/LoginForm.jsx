@@ -13,6 +13,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
+import { Link } from 'react-router-dom';
 
 
 
@@ -77,7 +78,13 @@ function LoginForm() {
                         </FormControl>
             
 
-                            <Button variant="contained">Sign in</Button>
+                        <Button variant="contained">Sign in</Button>
+                        <Link to="/createuser">
+                         Create an Account
+                        </Link>
+                        <Link to="#">
+                            Do you forget password ?
+                        </Link>
                         </Paper>
                     </div>
                     </Grid>
