@@ -25,6 +25,8 @@ function CreateUser() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+
     
     return (
         <div className={styles.container}>  
@@ -83,8 +85,8 @@ function CreateUser() {
                     id="demo-helper-text-misaligned"
                     
                 />
-                    <FormControl sx={{ mb: 2 }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password" type="password">Password</InputLabel>
+                    <FormControl sx={{ mb: 2 }} variant="outlined" type="password">
+                        <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
 
