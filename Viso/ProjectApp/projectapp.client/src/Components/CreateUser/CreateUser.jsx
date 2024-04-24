@@ -28,8 +28,9 @@ function CreateUser() {
     
     return (
         <div className={styles.container}>  
-            <Paper className={styles.MuiPaperElevation3} elevation={3}>
         <form>
+            <Paper className={styles.MuiPaperElevation3} elevation={3}>
+        
             <LockOutlinedIcon sx={{
                 color: 'purple',
                 fontSize: 45,
@@ -46,36 +47,44 @@ function CreateUser() {
             
             <Grid container spacing={4} columns={12}>
                 <Grid xs md={6}>
-                    
+                              
                         <TextField
+                         label="Name"
+                        type="name"
                         helperText=" "
                         id="demo-helper-text-misaligned"
-                        label="Name"
+                        
                         />
                     
                 </Grid>
                 <Grid xs md={6}>
                     
-                        <TextField
-                            helperText=" "
-                            id="demo-helper-text-misaligned"
-                            label="Surname"
+                         <TextField
+                         label="Surname"
+                         type="surname"
+                         helperText=" "
+                         id="demo-helper-text-misaligned"
+                            
                         />
                     
                     </Grid>
             </Grid>
-                <TextField
-                helperText=" "
-                id="demo-helper-text-misaligned"
-                label="Email"
-                />
-            <TextField
+                    <TextField
+                    label="Email"
+                    type="email"
                     helperText=" "
                     id="demo-helper-text-misaligned"
-                    label="Phone Number"
+                
                 />
-            <FormControl sx={{mb:2}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
+                    <TextField
+                    label="Phone Number"
+                    type="phonenumber"
+                    helperText=" "
+                    id="demo-helper-text-misaligned"
+                    
+                />
+                    <FormControl sx={{ mb: 2 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password" type="password">Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
 
@@ -104,8 +113,8 @@ function CreateUser() {
                 <Link to="/login">
                     Do you have an account ?
                     </Link>
-                </form>
-            </Paper>
+                </Paper>
+            </form>
         </div>  
     );
 }
