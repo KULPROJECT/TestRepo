@@ -15,7 +15,7 @@ namespace ProjectApp.Server.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("CheckLoginCredentials")]
         public IActionResult CheckLoginCredentials(string loginOrEmail, string pass)
         {

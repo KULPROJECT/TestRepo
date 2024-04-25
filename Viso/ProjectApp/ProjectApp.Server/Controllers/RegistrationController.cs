@@ -33,7 +33,7 @@ namespace ProjectApp.Server.Controllers
             return StatusCode(StatusCodes.Status200OK);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("CheckEmailExists")]
         public IActionResult CheckEmailExists(string emailWanted)
         {
@@ -47,7 +47,7 @@ namespace ProjectApp.Server.Controllers
             return StatusCode(StatusCodes.Status200OK);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("AddUser")]
         public IActionResult AddUser(string username, string email, string phoneNumber, string pass)
         {
