@@ -18,7 +18,7 @@ namespace ProjectApp.Server.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetRestaurantList")]
         public IActionResult GetRestaurantList(int userID)
         {
