@@ -73,7 +73,6 @@ namespace ProjectApp.Server.Controllers
                 };
                 _dbContext.Add(newClientRole);
                 _dbContext.SaveChanges();
-                //return StatusCode(StatusCodes.Status200OK);
                 return Ok(newClient);
             }
             else return StatusCode(StatusCodes.Status409Conflict);
