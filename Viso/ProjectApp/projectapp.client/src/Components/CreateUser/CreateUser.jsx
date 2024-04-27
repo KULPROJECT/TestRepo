@@ -14,20 +14,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import InputLabel from '@mui/material/InputLabel';
 
+//const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser'
 function CreateUser() {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        phoneNumber: '',
-        pass: ''
-    });
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [pass, setPassword] = useState("");
+    //const [formData, setFormData] = useState({
+    //    username: '',
+    //    email: '',
+    //    phoneNumber: '',
+    //    pass: ''
+    //});
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const handleChange = (event) => {
-        setFormData({ ...formData, [event.target.name]: event.target.value });
-    };
+    //const handleChange = (event) => {
+    //    setFormData({ ...formData,[event.target.name]: event.target.value });
+        
+    //};
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -39,19 +46,31 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
-            const response = await axios.post('https://localhost:5001/api/Registration/AddUser', formData);
+            const response = await axios.post('https://localhost:5001/api/Registration/AddUser',
+                ({
+                    userName,
+                    email,
+                    phoneNumber,
+                    pass
+                }),
+                {headers: {
+                    "Content-Type": "application/json"
+                }
+                });
             console.log('Server response:', response.data);
-            
         } catch (error) {
-            setError('Failed to create account. Please try again.');
-            console.error('Error submitting form:', error.response?.data || error.message);
+            const errorMessage = error.response?.data?.message || error.message || 'Failed to create account. Please try again.';
+            setError(errorMessage);
+            console.error('Error submitting form:', errorMessage);
         }
     };
 
+
     return (
         <div className={styles.container}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 <Paper className={styles.MuiPaperElevation3} elevation={3}>
                     <LockOutlinedIcon sx={{ color: 'purple', fontSize: 45, width: 1 }} />
                     <h1 className={styles.header1}>CREATE ACCOUNT</h1>
@@ -61,8 +80,10 @@ function CreateUser() {
                         name="username"
                         label="Username"
                         type="text"
-                        onChange={handleChange}
-                        value={formData.username}
+                        onChange={(e) => {
+                            setUserName(e.target.value)
+                        }}
+                        value={userName}
                         margin="normal"
                         fullWidth
                     />
@@ -70,8 +91,10 @@ function CreateUser() {
                         name="email"
                         label="Email"
                         type="email"
-                        onChange={handleChange}
-                        value={formData.email}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                        }}
+                        value={email}
                         margin="normal"
                         fullWidth
                     />
@@ -79,19 +102,26 @@ function CreateUser() {
                         name="phoneNumber"
                         label="Phone Number"
                         type="tel"
-                        onChange={handleChange}
-                        value={formData.phoneNumber}
+                        onChange={(e) => {
+                            setPhoneNumber(e.target.value)
+                        }}
+                        value={phoneNumber}
                         margin="normal"
                         fullWidth
                     />
-                    <FormControl fullWidth margin="normal" variant="outlined">
+                    <FormControl fullWidth margin="normal" variant="outlined" type="">
+                        <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
                         <OutlinedInput
+                            id="outlined-adornment-password"
                             name="pass"
                             type={showPassword ? 'text' : 'password'}
-                            onChange={handleChange}
-                            value={formData.pass}
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
+                            value={pass}
                             endAdornment={
                                 <InputAdornment position="end">
+                                    
                                     <IconButton
                                         aria-label="toggle password visibility"
                                         onClick={handleClickShowPassword}
@@ -102,8 +132,10 @@ function CreateUser() {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                            labelWidth={70}
+                           label="Password"
+                            
                         />
+                        
                     </FormControl>
                     <Button type="submit" variant="contained" color="primary" fullWidth>
                         Create Account
