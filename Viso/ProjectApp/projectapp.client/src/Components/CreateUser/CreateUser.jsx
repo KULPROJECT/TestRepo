@@ -35,16 +35,11 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        const messageArray = [userName, email, phoneNumber, pass];
+        const data = JSON.stringify(messageArray)
         try {
-            if()
             const response = await axios.post(REGISTER_URL,
-                ({
-                    userName,
-                    email,
-                    phoneNumber,
-                    pass
-                }),
+                    data,
                 {headers: {
                     "Content-Type": "application/json"
                 }
