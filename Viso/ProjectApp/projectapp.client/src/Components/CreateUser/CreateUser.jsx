@@ -16,25 +16,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
 
-//const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser'
+const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser'
 function CreateUser() {
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [pass, setPassword] = useState("");
-    //const [formData, setFormData] = useState({
-    //    username: '',
-    //    email: '',
-    //    phoneNumber: '',
-    //    pass: ''
-    //});
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-
-    //const handleChange = (event) => {
-    //    setFormData({ ...formData,[event.target.name]: event.target.value });
-        
-    //};
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
