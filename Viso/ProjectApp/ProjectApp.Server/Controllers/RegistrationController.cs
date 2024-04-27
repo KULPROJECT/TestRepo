@@ -26,7 +26,7 @@ namespace ProjectApp.Server.Controllers
             if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
             var username = _dbContext.Clients
                 .FromSql($"select * from dbo.Clients where user_name = {usernameWanted}").ToList();
-            if (username.Count>0)
+            if (username.Count > 0)
             {
                 return StatusCode(StatusCodes.Status302Found);
             }
@@ -49,20 +49,20 @@ namespace ProjectApp.Server.Controllers
 
         [HttpPost]
         [Route("AddUser")]
-        public IActionResult AddUser(string username, string email, string phoneNumber, string pass)
+        public IActionResult AddUser([FromBody] ClientfromFrontend clientfromFrontend)
         {
             if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
-            if (Regex.IsMatch(email,
+            if (Regex.IsMatch(clientfromFrontend.email,
                     @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
                     RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
             {
-                var securePassword = EncryptionTool.EncryptData(pass);
+                var securePassword = EncryptionTool.EncryptData(clientfromFrontend.pass);
                 var newClient = new Client()
                 {
-                    Email = email, 
-                    PhoneNumber = phoneNumber, 
+                    Email = clientfromFrontend.email, 
+                    PhoneNumber = clientfromFrontend.phoneNumber, 
                     PassHash = securePassword, 
-                    UserName = username
+                    UserName = clientfromFrontend.userName
                 };
                 _dbContext.Add(newClient);
                 _dbContext.SaveChanges();
@@ -73,7 +73,8 @@ namespace ProjectApp.Server.Controllers
                 };
                 _dbContext.Add(newClientRole);
                 _dbContext.SaveChanges();
-                return StatusCode(StatusCodes.Status200OK);
+                //return StatusCode(StatusCodes.Status200OK);
+                return Ok(newClient);
             }
             else return StatusCode(StatusCodes.Status409Conflict);
         }
