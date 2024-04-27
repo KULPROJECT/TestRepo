@@ -49,20 +49,20 @@ namespace ProjectApp.Server.Controllers
 
         [HttpPost]
         [Route("AddUser")]
-        public IActionResult AddUser([FromBody] ClientfromFrontend clientfromFrontend)
+        public IActionResult AddUser([FromBody] string[] userCreationStrings)
         {
             if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
-            if (Regex.IsMatch(clientfromFrontend.email,
+            if (Regex.IsMatch(userCreationStrings[1],
                     @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
                     RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
             {
-                var securePassword = EncryptionTool.EncryptData(clientfromFrontend.pass);
+                var securePassword = EncryptionTool.EncryptData(userCreationStrings[3]);
                 var newClient = new Client()
                 {
-                    Email = clientfromFrontend.email, 
-                    PhoneNumber = clientfromFrontend.phoneNumber, 
+                    Email = userCreationStrings[1], 
+                    PhoneNumber = userCreationStrings[2], 
                     PassHash = securePassword, 
-                    UserName = clientfromFrontend.userName
+                    UserName = userCreationStrings[2]
                 };
                 _dbContext.Add(newClient);
                 _dbContext.SaveChanges();
