@@ -62,7 +62,7 @@ namespace ProjectApp.Server.Controllers
                     Email = userCreationStrings[1], 
                     PhoneNumber = userCreationStrings[2], 
                     PassHash = securePassword, 
-                    UserName = userCreationStrings[2]
+                    UserName = userCreationStrings[0]
                 };
                 _dbContext.Add(newClient);
                 _dbContext.SaveChanges();
@@ -73,7 +73,7 @@ namespace ProjectApp.Server.Controllers
                 };
                 _dbContext.Add(newClientRole);
                 _dbContext.SaveChanges();
-                return Ok(newClient);
+                return StatusCode(StatusCodes.Status200OK, newClient.ClientId);
             }
             else return StatusCode(StatusCodes.Status409Conflict);
         }

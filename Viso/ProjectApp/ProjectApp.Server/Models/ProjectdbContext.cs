@@ -73,6 +73,7 @@ public partial class ProjectdbContext : DbContext
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(20)
                 .HasColumnName("Phone_number");
+            entity.Property(e => e.RestaurateurApplication).HasColumnName("Restaurateur_application");
             entity.Property(e => e.UserName)
                 .HasMaxLength(50)
                 .HasColumnName("User_name");

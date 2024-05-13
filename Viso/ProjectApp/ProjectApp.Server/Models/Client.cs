@@ -14,4 +14,6 @@ public partial class Client
     public string PassHash { get; set; } = null!;
 
     public string UserName { get; set; } = null!;
+
+    public int? RestaurateurApplication { get; set; }
 }

@@ -17,16 +17,16 @@ namespace ProjectApp.Server.Controllers
 
         [HttpPost]
         [Route("CheckLoginCredentials")]
-        public IActionResult CheckLoginCredentials(string loginOrEmail, string pass)
+        public IActionResult CheckLoginCredentials(string[] credentials)
         {
             if (!_dbContext.Database.CanConnect()) return StatusCode(StatusCodes.Status503ServiceUnavailable);
             List<Client> clientList = _dbContext.Clients.ToList();
             foreach (Client client in clientList)
             {
-                if (client.UserName==loginOrEmail||client.Email==loginOrEmail)
+                if (client.UserName==credentials[0]||client.Email== credentials[0])
                 {
-                    if (EncryptionTool.ValidateEncryptedData(pass, client.PassHash))
-                        return StatusCode(StatusCodes.Status200OK);
+                    if (EncryptionTool.ValidateEncryptedData(credentials[1], client.PassHash))
+                        return StatusCode(StatusCodes.Status200OK, client.ClientId);
                 }
             }
             return StatusCode(StatusCodes.Status401Unauthorized);
