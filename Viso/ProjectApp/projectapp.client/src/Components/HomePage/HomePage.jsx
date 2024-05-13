@@ -11,6 +11,7 @@ function HomePage() {
             <Header />
             <section className={styles.firstSection}>
                 <div className={styles.firstSectionDiv}>Order food and more</div>
+                
             </section>
             <section className={styles.secondSection}>
                 <h1>Easy way to add your restaurant</h1>
@@ -20,6 +21,9 @@ function HomePage() {
             </section>
             <section className={styles.thirdSection}>
                 <h1>Contact</h1>
+                <div className={styles.avatar}></div>
+                <p>email: eattogo@gmail.com <br></br>
+                phone +123456789</p>
             </section>
             
 

@@ -48,15 +48,28 @@
 .secondSection {
     height: 500px;
     color: black;
+        p{
 
+            margin: 2rem 2rem 5rem;
+            text-align:justify;
+        }
     
 }
 .thirdSection {
     height: 500px;
     background-color:darkgrey ;
-
     .firstSectionDiv {
         font-size: 30px;
+    }
+    .avatar{
+        background:url("../assets/avatar.jpg") no-repeat;
+        height:14rem;
+        width:15rem;
+        margin: 0 auto;
+
+    }
+    p{
+        text-align:center;
     }
 }
 
