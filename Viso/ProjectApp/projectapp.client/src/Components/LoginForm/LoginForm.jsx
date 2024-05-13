@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import styles from './LoginForm.module.scss';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -13,11 +14,17 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/system/Unstable_Grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
 function LoginForm() {
+    const [userName, setUserName] = useState("");
+    const [pass, setPassword] = useState("");
+    //const [isLoggedIn, setLoggedIn] = useState(false);
+    const [error, setError] = useState("");
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,6 +32,28 @@ function LoginForm() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const loginData = JSON.stringify([userName, pass]);
+        
+        try {
+            const loginSuccess = await axios.post('https://localhost:5001/api/Login/CheckLoginCredentials', loginData,
+            {
+                headers: { "Content-Type": "application/json" }
+            });
+            console.log("Server response: ", loginSuccess.data)
+            navigate('/');
+        } catch (loginError) {
+            const errorMessage = loginError.response?.data?.message || loginError.message || 'Failed to sign in. Please try again.';
+            setError(errorMessage);
+            console.error('Error submitting form:', errorMessage);
+        }
+    }
+
 
     return (
             <Grid container columns={12}>
@@ -34,6 +63,7 @@ function LoginForm() {
                 </Grid>
                 <Grid item xs md={4}>
                 <div className={styles.loginForm}>
+                    <form onSubmit={handleSubmit}>
                     <Paper className={styles.MuiPaperElevation1} elevation={1}>
                         <LockOutlinedIcon sx={{
                             color: 'purple',
@@ -47,38 +77,44 @@ function LoginForm() {
                             borderRadius:4,
                             opacity:0.2,
                             width:3/4
-                        }}></Divider>
+                            }}></Divider>
+                            {error && <p className={styles.error}>{error}</p>}
                         <TextField
-                            helperText=" "
-                            id="demo-helper-text-misaligned"
-                            label="Email"
+                            name="username"
+                            label="Username"
+                            type="text"
+                            onChange={(e) => setUserName(e.target.value)}
+                            value={userName}
+                            margin="normal"
+                            fullWidth
+                            required
                         />
-                        <FormControl sx={{mb:2}} variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
+                        <FormControl fullWidth margin="normal" variant="outlined" required>
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
-
-                                    type={showPassword ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-
-                                    }
-                        
+                                name="pass"
+                                type={showPassword ? 'text' : 'password'}
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={pass}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
                                 label="Password"
                             />
                         </FormControl>
             
 
-                        <Button variant="contained">Sign in</Button>
+                        <Button type="submit" variant="contained">Sign in</Button>
                         <Link to="/createuser">
                          Create an Account
                         </Link>
@@ -86,6 +122,7 @@ function LoginForm() {
                             Do you forget password ?
                         </Link>
                         </Paper>
+                    </form>
                     </div>
                     </Grid>
                 

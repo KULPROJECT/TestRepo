@@ -16,7 +16,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
 
-const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser'
+const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser';
+const EMAIL_EXIST = 'https://localhost:5001/api/Registration/CheckEmailExists';
+
 function CreateUser() {
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -35,27 +37,46 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const messageArray = [userName, email, phoneNumber, pass];
-        const data = JSON.stringify(messageArray)
+        const emailData = JSON.stringify([ email ]);
+
         try {
-            const response = await axios.post(REGISTER_URL,
-                    data,
-                {headers: {
-                    "Content-Type": "application/json"
+            const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
+                headers: { "Content-Type": "application/json" }
+            });
+
+            if (!emailResponse.data.exists) {
+                const userData = JSON.stringify([
+                    userName,
+                    email,
+                    phoneNumber,
+                    pass
+                ]);
+
+                try {
+                    const registerResponse = await axios.post(REGISTER_URL, userData, {
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    console.log('Server response:', registerResponse.data);
+                    
+                } catch (registerError) {
+                    const errorMessage = registerError.response?.data?.message || registerError.message || 'Failed to create account. Please try again.';
+                    setError(errorMessage);
+                    console.error('Error submitting form:', errorMessage);
                 }
-                });
-            console.log('Server response:', response.data);
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || error.message || 'Failed to create account. Please try again.';
+            } else {
+                setError("Email already exists.");
+                console.error('Email already exists.');
+            }
+        } catch (emailError) {
+            const errorMessage = emailError.response?.data?.message || emailError.message || 'Error checking email existence';
             setError(errorMessage);
-            console.error('Error submitting form:', errorMessage);
+            console.error('Error checking email:', errorMessage);
         }
     };
 
-
     return (
         <div className={styles.container}>
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit}>
                 <Paper className={styles.MuiPaperElevation3} elevation={3}>
                     <LockOutlinedIcon sx={{ color: 'purple', fontSize: 45, width: 1 }} />
                     <h1 className={styles.header1}>CREATE ACCOUNT</h1>
@@ -65,48 +86,42 @@ function CreateUser() {
                         name="username"
                         label="Username"
                         type="text"
-                        onChange={(e) => {
-                            setUserName(e.target.value)
-                        }}
+                        onChange={(e) => setUserName(e.target.value)}
                         value={userName}
                         margin="normal"
                         fullWidth
+                        required
                     />
                     <TextField
                         name="email"
                         label="Email"
                         type="email"
-                        onChange={(e) => {
-                            setEmail(e.target.value)
-                        }}
+                        onChange={(e) => setEmail(e.target.value)}
                         value={email}
                         margin="normal"
                         fullWidth
+                        required
                     />
                     <TextField
                         name="phoneNumber"
                         label="Phone Number"
                         type="tel"
-                        onChange={(e) => {
-                            setPhoneNumber(e.target.value)
-                        }}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                         value={phoneNumber}
                         margin="normal"
                         fullWidth
+                        required
                     />
-                    <FormControl fullWidth margin="normal" variant="outlined" type="">
-                        <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
+                    <FormControl fullWidth margin="normal" variant="outlined" required>
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             name="pass"
                             type={showPassword ? 'text' : 'password'}
-                            onChange={(e) => {
-                                setPassword(e.target.value)
-                            }}
+                            onChange={(e) => setPassword(e.target.value)}
                             value={pass}
                             endAdornment={
                                 <InputAdornment position="end">
-                                    
                                     <IconButton
                                         aria-label="toggle password visibility"
                                         onClick={handleClickShowPassword}
@@ -117,10 +132,8 @@ function CreateUser() {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                           label="Password"
-                            
+                            label="Password"
                         />
-                        
                     </FormControl>
                     <Button type="submit" variant="contained" color="primary" fullWidth>
                         Create Account
