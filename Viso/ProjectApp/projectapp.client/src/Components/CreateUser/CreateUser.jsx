@@ -37,11 +37,11 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const emailData = JSON.stringify([ email ]);
+        const emailData = JSON.stringify(email);
 
         try {
             const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "plain/text" }
             });
 
             if (!emailResponse.data.exists) {
