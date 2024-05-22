@@ -5,6 +5,7 @@ using ProjectApp.Server.Models;
 using ProjectApp.Server.Services;
 using System.Text;
 using System.Text.RegularExpressions;
+using ProjectApp.Server.Structures;
 
 namespace ProjectApp.Server.Controllers
 {
@@ -69,7 +70,7 @@ namespace ProjectApp.Server.Controllers
                 var newClientRole = new ClientRole()
                 {
                     ClientId = newClient.ClientId,
-                    RoleId = 1
+                    RoleId = (int)ERoles.BaseUser
                 };
                 _dbContext.Add(newClientRole);
                 _dbContext.SaveChanges();

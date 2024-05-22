@@ -15,6 +15,8 @@ public partial class ProjectdbContext : DbContext
     {
     }
 
+    public virtual DbSet<ApplicationComment> ApplicationComments { get; set; }
+
     public virtual DbSet<COpinion> COpinions { get; set; }
 
     public virtual DbSet<Client> Clients { get; set; }
@@ -51,6 +53,18 @@ public partial class ProjectdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ApplicationComment>(entity =>
+        {
+            entity.HasKey(e => e.ClientId);
+
+            entity.ToTable("Application_Comments");
+
+            entity.Property(e => e.ClientId)
+                .ValueGeneratedNever()
+                .HasColumnName("Client_id");
+            entity.Property(e => e.Comment).HasMaxLength(200);
+        });
+
         modelBuilder.Entity<COpinion>(entity =>
         {
             entity.HasKey(e => e.OpinionIdClientIdGradeDescriptionRestaurantIdTimeOpinionId);
