@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectApp.Server.Models;
+using ProjectApp.Server.Structures;
 
 namespace ProjectApp.Server.Controllers
 {
@@ -34,20 +35,20 @@ namespace ProjectApp.Server.Controllers
         {
             var clientID = data[0];
             var newStatus = data[1];
-            if (clientID == null) return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
+            if (int.IsEvenInteger(clientID)) return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
 
             var client = _dbContext.Clients.FindAsync(clientID);
             if (client.IsFaulted)
                 return StatusCode(StatusCodes.Status406NotAcceptable, "No client of such id found!");
             client.Result.RestaurateurApplication = newStatus;
-            if (newStatus==1)
+            if (newStatus==(int)ERestaurateurStatus.Accepted)
             {
                 var clientRole =
                     _dbContext.ClientRoles.FromSql($"Select * from Client_Roles where Client_id = {clientID}");
                 if (clientRole.IsNullOrEmpty())
                     return StatusCode(StatusCodes.Status409Conflict,
                         "Client found but it has no client role assigned!");
-                clientRole.FirstOrDefault().RoleId = 2;
+                clientRole.FirstOrDefault().RoleId = (int)ERoles.Restaurateur;
             }
             _dbContext.SaveChangesAsync();
             return StatusCode(StatusCodes.Status200OK, "Client's application status changed successfully!");

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectApp.Server.Models;
+using ProjectApp.Server.Structures;
 
 namespace ProjectApp.Server.Controllers
 {
@@ -33,11 +34,11 @@ namespace ProjectApp.Server.Controllers
                 if (client.Result == null)
                     return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
 
-                if (client.Result.RestaurateurApplication == 0)
-                    return StatusCode(StatusCodes.Status403Forbidden,
-                        "Request is being verified, please wait for a message");
+                //if (client.Result.RestaurateurApplication == 0)
+                //    return StatusCode(StatusCodes.Status403Forbidden,
+                //        "Request is being verified, please wait for a message"); TODO: MOVE TO FRONTEND
 
-                client.Result.RestaurateurApplication = 0;
+                client.Result.RestaurateurApplication = (int) ERestaurateurStatus.Applied;
                 _dbContext.SaveChangesAsync();
                 return StatusCode(StatusCodes.Status200OK, "Application saved to database");
             }
