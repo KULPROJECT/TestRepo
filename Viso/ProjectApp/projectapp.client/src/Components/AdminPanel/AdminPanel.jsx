@@ -14,12 +14,11 @@ const AdminPanel = () => {
             <div className={styles.main}>
                 <Sidebar />
                 <div className={styles.content}>
-                    <Routes>
-                        <Route path="/users" element={<Dashboard />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/" element={<Users />} />
-                        <Route path="/products" element={<Products />} />
-                    </Routes>
+                        <Routes>
+                            <Route path="/adminpanel/dashboard" element={<Dashboard />} />
+                            <Route path="/adminpanel/users" element={<Users />} />
+                            <Route path="/adminpanel/products" element={<Products />} />
+                        </Routes>
                 </div>
             </div>
         </div>

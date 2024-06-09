@@ -13,15 +13,15 @@ const Sidebar = () => {
     return (
         <div className={styles.sidebar}>
             <List>
-                <ListItem button component={NavLink} to="/dashboard" activeClassName={styles.activeLink}>
+                <ListItem button component={NavLink} to="/adminpanel/dashboard" activeClassName={styles.activeLink}>
                     <ListItemIcon><DashboardIcon sx={{ color: 'white' }} /></ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem button component={NavLink} to="/users" activeClassName={styles.activeLink}>
+                <ListItem button component={NavLink} to="/adminpanel/users" activeClassName={styles.activeLink}>
                     <ListItemIcon><PeopleIcon sx={{ color: 'white' }} /></ListItemIcon>
                     <ListItemText primary="Users" />
                 </ListItem>
-                <ListItem button component={NavLink} to="/products" activeClassName={styles.activeLink}>
+                <ListItem button component={NavLink} to="/adminpanel/products" activeClassName={styles.activeLink}>
                     <ListItemIcon><InventoryIcon sx={{ color: 'white' }} /></ListItemIcon>
                     <ListItemText primary="Products" />
                 </ListItem>
