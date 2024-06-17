@@ -18,6 +18,73 @@ namespace ProjectApp.Server.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        [Route("GetClientData")]
+        public IActionResult GetClientData(int clientID)
+        {
+            if (clientID != null)
+            {
+                var client = _dbContext.Clients.Find(clientID);
+                if (client == null)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
+                string[] responseArray = [
+                    client.UserName,
+                    client.PhoneNumber,
+                    client.Email];
+                return StatusCode(StatusCodes.Status200OK, responseArray);
+            }
+
+            return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
+        }
+
+        [HttpPost]
+        [Route("ChangeClientPhoneNumber")]
+        public IActionResult ChangeClientPhoneNumber(string[] dataArray)
+        {
+            if (int.TryParse(dataArray[0], out int result))
+            {
+                var client = _dbContext.Clients.Find(result);
+                if (client == null)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
+                client.PhoneNumber = dataArray[1];
+                _dbContext.SaveChangesAsync();
+                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+            }
+            return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
+        }
+
+        [HttpPost]
+        [Route("ChangeClientEmail")]
+        public IActionResult ChangeClientEmail(string[] dataArray)
+        {
+            if (int.TryParse(dataArray[0], out int result))
+            {
+                var client = _dbContext.Clients.Find(result);
+                if (client == null)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
+                client.Email = dataArray[1];
+                _dbContext.SaveChangesAsync();
+                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+            }
+            return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
+        }
+
+        [HttpPost]
+        [Route("ChangeClientUsername")]
+        public IActionResult ChangeClientUsername(string[] dataArray)
+        {
+            if (int.TryParse(dataArray[0], out int result))
+            {
+                var client = _dbContext.Clients.Find(result);
+                if (client == null)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
+                client.UserName = dataArray[1];
+                _dbContext.SaveChangesAsync();
+                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+            }
+            return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
+        }
+
 
         [HttpPost]
         [Route("ApplyForRestaurateur")]
