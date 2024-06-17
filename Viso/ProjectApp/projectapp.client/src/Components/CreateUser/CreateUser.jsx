@@ -37,14 +37,14 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const emailData = JSON.stringify(email);
+       // const emailData = JSON.stringify(email);
 
         try {
-            const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
-                headers: { "Content-Type": "plain/text" }
-            });
+            //const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
+            //    headers: { "Content-Type": "plain/text" }
+            //});
 
-            if (!emailResponse.data.exists) {
+            //if (!emailResponse.data.exists) {
                 const userData = JSON.stringify([
                     userName,
                     email,
@@ -63,10 +63,10 @@ function CreateUser() {
                     setError(errorMessage);
                     console.error('Error submitting form:', errorMessage);
                 }
-            } else {
-                setError("Email already exists.");
-                console.error('Email already exists.');
-            }
+            //} else {
+            //    setError("Email already exists.");
+            //    console.error('Email already exists.');
+            //}
         } catch (emailError) {
             const errorMessage = emailError.response?.data?.message || emailError.message || 'Error checking email existence';
             setError(errorMessage);
