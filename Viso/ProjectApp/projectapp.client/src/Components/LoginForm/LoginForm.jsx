@@ -43,7 +43,7 @@ function LoginForm() {
         } catch (loginError) {
             const errorMessage = loginError.response?.data?.message || loginError.message || 'Failed to sign in. Please try again.';
             setError(errorMessage);
-            console.error('Error submitting form:', errorMessage);
+            //console.error('Error submitting form:', errorMessage);
         }
     };
 

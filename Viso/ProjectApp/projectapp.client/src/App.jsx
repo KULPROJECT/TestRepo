@@ -13,9 +13,9 @@ import AdminLogin from './Components/AdminLogin/AdminLogin';
 function App() {
     return (
         <Router>
-                <Routes>
-                <Route path="/" element={<HomePage />} />
+            <Routes>
                 <Route path="/login" element={<LoginForm />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/createuser" element={<CreateUser />} />
                 <Route path="/userpanel" element={<UserPanel />} />
                 <Route path="/adminlogin" element={<AdminLogin />} />

@@ -18,6 +18,7 @@ import InputLabel from '@mui/material/InputLabel';
 
 const REGISTER_URL = 'https://localhost:5001/api/Registration/AddUser';
 const EMAIL_EXIST = 'https://localhost:5001/api/Registration/CheckEmailExists';
+const USERNAME_EXIST = 'https://localhost:5001/api/Registration/CheckUsernameExists';
 
 function CreateUser() {
     const [userName, setUserName] = useState("");
@@ -37,42 +38,50 @@ function CreateUser() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-       // const emailData = JSON.stringify(email);
+        const emailData = JSON.stringify([email]);
+        const usernameData = JSON.stringify([userName]);
 
         try {
-            //const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
-            //    headers: { "Content-Type": "plain/text" }
-            //});
+            const userNameResponse = await axios.post(USERNAME_EXIST, usernameData, {
+                headers: { "Content-Type": "application/json" }
+            });
 
-            //if (!emailResponse.data.exists) {
-                const userData = JSON.stringify([
-                    userName,
-                    email,
-                    phoneNumber,
-                    pass
-                ]);
+            try {
+                const emailResponse = await axios.post(EMAIL_EXIST, emailData, {
+                    headers: { "Content-Type": "application/json" }
+                });
 
-                try {
-                    const registerResponse = await axios.post(REGISTER_URL, userData, {
-                        headers: { "Content-Type": "application/json" }
-                    });
-                    console.log('Server response:', registerResponse.data);
-                    
-                } catch (registerError) {
-                    const errorMessage = registerError.response?.data?.message || registerError.message || 'Failed to create account. Please try again.';
-                    setError(errorMessage);
-                    console.error('Error submitting form:', errorMessage);
-                }
-            //} else {
-            //    setError("Email already exists.");
-            //    console.error('Email already exists.');
-            //}
-        } catch (emailError) {
-            const errorMessage = emailError.response?.data?.message || emailError.message || 'Error checking email existence';
-            setError(errorMessage);
-            console.error('Error checking email:', errorMessage);
+                if (!emailResponse.data.exists && !userNameResponse.data.exists) {
+                    const userData = JSON.stringify([
+                        userName,
+                        email,
+                        phoneNumber,
+                        pass
+                    ]);
+
+                    try {
+                        const registerResponse = await axios.post(REGISTER_URL, userData, {
+                            headers: { "Content-Type": "application/json" }
+                        });
+                        setError("Create User");
+                        console.log('Server response:', registerResponse.data);
+                    } catch (registerError) {
+                        const errorMessage = registerError.response?.data?.message || registerError.message || 'Failed to create account. Please try again.';
+                        setError(errorMessage);
+                        console.error('Error submitting form:', errorMessage);
+                    }
+               }   
+            } catch (emailError) {
+                //const errorMessage = emailError.response?.data?.message || emailError.message || 'Error checking email existence';
+                setError("Email Exists");
+                //console.error('Error checking email:', errorMessage);
+            }
+        } catch (userNameError) {
+            //const errorMessage = userNameError.response?.data?.message || userNameError.message || 'Error checking username existence';
+            setError("Username Exists");
+           // console.error('Error checking username:', errorMessage);
         }
-    };
+    }
 
     return (
         <div className={styles.container}>
@@ -106,12 +115,21 @@ function CreateUser() {
                         name="phoneNumber"
                         label="Phone Number"
                         type="tel"
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (/^\d*$/.test(value) && value.length <= 9) {
+                                setPhoneNumber(value);
+                            }
+                        }}
                         value={phoneNumber}
                         margin="normal"
                         fullWidth
                         required
+                        inputProps={{
+                            maxLength: 9,
+                        }}
                     />
+
                     <FormControl fullWidth margin="normal" variant="outlined" required>
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput

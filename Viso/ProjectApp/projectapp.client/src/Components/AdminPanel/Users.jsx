@@ -12,6 +12,16 @@ import Paper from '@mui/material/Paper';
 const Users = () => {
     const [users, setUsers] = useState([]);
 
+    const changeStatusFunction = () => {
+        axios.get('https://localhost:5001/api/Administrator/GetClientsRequests')
+            .then(response => {
+                console.log(response);
+                const getStatus = response.data;
+                changeStatus(getStatus);
+            })
+            .catch(error => console.error('Error fetching users:', error));
+    };
+
     const gUsers = () => {
         axios.get('https://localhost:5001/api/Administrator/GetClients')
             .then(response => {
@@ -24,11 +34,15 @@ const Users = () => {
 
     useEffect(() => {
         gUsers();
+        changeStatusFunction();
     }, []);
+
+    const filteredUsers = users.filter(user => user.restaurateurApplication !== null);
 
     return (
         <div className={styles.users}>
             <h1>Users</h1>
+            <br />
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -37,11 +51,11 @@ const Users = () => {
                             <TableCell>Name</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Phone Number</TableCell>
-                            <TableCell>Status Reastauretur</TableCell>
+                            <TableCell>Status Restaurateur</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map(user => (
+                        {filteredUsers.map(user => (
                             <TableRow key={user.id}>
                                 <TableCell>{user.clientId}</TableCell>
                                 <TableCell>{user.userName}</TableCell>

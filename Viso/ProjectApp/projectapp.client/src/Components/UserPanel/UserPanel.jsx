@@ -1,25 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Button from '@mui/material/Button';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 const UserPanel = () => {
     const [requestStatus, setRequestStatus] = useState('');
     const [applicationStatus, setApplicationStatus] = useState('');
     const [user, setUser] = useState(null);
+    const [userD, setUserD] = useState(null);
 
     useEffect(() => {
-        const userData = localStorage.getItem('user');
-        setUser(userData);
+        const userId = localStorage.getItem('user');
+        setUser(userId);
     }, []);
+
+    useEffect(() => {
+            getClientData();
+            checkApplicationStatus();
+        
+    }, [user]);
+
+    const getClientData = () => {
+        axios.get(`https://localhost:5001/api/Client/GetClientData?clientID=${user}`)
+            .then(response => {
+                console.log(response.data)
+                setUserD(response.data);
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    };
 
     const requestRestaurateurStatus = () => {
         axios.post(`https://localhost:5001/api/Client/ApplyForRestaurateur?clientID=${user}`)
             .then(() => {
-                setRequestStatus('Request sent successfully!');
+                setRequestStatus('Sent successfully!');
                 checkApplicationStatus();
             })
             .catch(error => {
@@ -29,23 +45,17 @@ const UserPanel = () => {
     };
 
     const checkApplicationStatus = () => {
-        axios.post(`https://localhost:5001/api/Client/GetClientApplicationStatus?clientID=${user}`)
+        axios.get(`https://localhost:5001/api/Client/GetClientApplicationStatus?clientID=${user}`)
             .then(response => {
                 setApplicationStatus(response.data.status);
             })
             .catch(error => {
                 console.error('Error fetching application status:', error);
-                setApplicationStatus('Error fetching status');
+                setApplicationStatus('Waiting for admin decision');
             });
     };
 
-    useEffect(() => {
-        if (user && user.clientId) {
-            checkApplicationStatus();
-        }
-    }, [user]);
-
-    if (!user) {
+    if (!userD) {
         return <Typography>Loading...</Typography>;
     }
 
@@ -53,15 +63,19 @@ const UserPanel = () => {
         <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" p={3}>
             <Paper elevation={3} sx={{ p: 3, maxWidth: 600, width: '100%' }}>
                 <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
-                    <Avatar alt={user.userName} src={user.avatar} sx={{ width: 100, height: 100 }} />
-                    <Typography variant="h5" mt={2}>{user.userName}</Typography>
+                    <Avatar sx={{ width: 100, height: 100 }} />
+                    {userD.map(user => (
+                        <div key={user.id }>
+                    <Typography variant="h5" mt={2} >{user.userName}</Typography>
                     <Typography variant="body1">{user.email}</Typography>
                     <Typography variant="body1">{user.phoneNumber}</Typography>
+                     </div>
+                    ))}
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="center">
                     <Typography variant="h6">Application Status: {applicationStatus}</Typography>
                     <Button variant="contained" color="primary" onClick={requestRestaurateurStatus} sx={{ mt: 2 }}>
-                        Request Restaurateur Status
+                        Apply for Restaurateur Status
                     </Button>
                     {requestStatus && <Typography variant="body2" color="error" mt={2}>{requestStatus}</Typography>}
                 </Box>
