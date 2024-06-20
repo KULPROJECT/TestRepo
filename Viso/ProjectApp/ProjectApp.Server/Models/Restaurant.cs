@@ -20,4 +20,6 @@ public partial class Restaurant
     public decimal? TotalGrade { get; set; }
 
     public string? Description { get; set; }
+
+    public string? Nip { get; set; }
 }

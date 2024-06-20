@@ -48,7 +48,7 @@ namespace ProjectApp.Server.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
                 client.PhoneNumber = dataArray[1];
                 _dbContext.SaveChangesAsync();
-                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+                return StatusCode(StatusCodes.Status200OK, "Client phone number changed successfully");
             }
             return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
         }
@@ -64,7 +64,7 @@ namespace ProjectApp.Server.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
                 client.Email = dataArray[1];
                 _dbContext.SaveChangesAsync();
-                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+                return StatusCode(StatusCodes.Status200OK, "Client email changed successfully");
             }
             return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
         }
@@ -80,7 +80,7 @@ namespace ProjectApp.Server.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, "No such client!");
                 client.UserName = dataArray[1];
                 _dbContext.SaveChangesAsync();
-                return StatusCode(StatusCodes.Status200OK, "Phone number changes successfully");
+                return StatusCode(StatusCodes.Status200OK, "Client username changed successfully");
             }
             return StatusCode(StatusCodes.Status409Conflict, "Wrong id format!");
         }

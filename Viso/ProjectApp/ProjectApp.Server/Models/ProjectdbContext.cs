@@ -229,6 +229,10 @@ public partial class ProjectdbContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.ManagerId).HasColumnName("Manager_id");
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Nip)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("NIP");
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(20)
                 .IsUnicode(false)
